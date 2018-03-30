@@ -58,10 +58,6 @@
             this.CC2 = new System.Windows.Forms.Label();
             this.CurrentNote2TextBox = new System.Windows.Forms.TextBox();
             this.BackToMenuBut = new System.Windows.Forms.Button();
-            this.Octave11CheckBox = new System.Windows.Forms.CheckBox();
-            this.Octave12CheckBox = new System.Windows.Forms.CheckBox();
-            this.Octave22CheckBox = new System.Windows.Forms.CheckBox();
-            this.Octave21CheckBox = new System.Windows.Forms.CheckBox();
             this.NoteLength1TextBox = new System.Windows.Forms.TextBox();
             this.MS1Label = new System.Windows.Forms.Label();
             this.SetDelay1But = new System.Windows.Forms.Button();
@@ -77,6 +73,12 @@
             this.NoteLengthLabel2 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
+            this.Octave11Label = new System.Windows.Forms.Label();
+            this.Octave12Label = new System.Windows.Forms.Label();
+            this.Octave22Label = new System.Windows.Forms.Label();
+            this.Octave21Label = new System.Windows.Forms.Label();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.SuspendLayout();
             // 
             // CurrentNote1TextBox
@@ -398,62 +400,6 @@
             this.BackToMenuBut.UseVisualStyleBackColor = false;
             this.BackToMenuBut.Click += new System.EventHandler(this.BackToMenuBut_Click);
             // 
-            // Octave11CheckBox
-            // 
-            this.Octave11CheckBox.AutoSize = true;
-            this.Octave11CheckBox.Checked = true;
-            this.Octave11CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.Octave11CheckBox.Font = new System.Drawing.Font("Kid A", 12F, System.Drawing.FontStyle.Bold);
-            this.Octave11CheckBox.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.Octave11CheckBox.Location = new System.Drawing.Point(459, 12);
-            this.Octave11CheckBox.Name = "Octave11CheckBox";
-            this.Octave11CheckBox.Size = new System.Drawing.Size(145, 24);
-            this.Octave11CheckBox.TabIndex = 29;
-            this.Octave11CheckBox.Text = "1st octave";
-            this.Octave11CheckBox.UseVisualStyleBackColor = true;
-            this.Octave11CheckBox.CheckedChanged += new System.EventHandler(this.Octave11CheckBox_CheckedChanged);
-            // 
-            // Octave12CheckBox
-            // 
-            this.Octave12CheckBox.AutoSize = true;
-            this.Octave12CheckBox.Font = new System.Drawing.Font("Kid A", 12F, System.Drawing.FontStyle.Bold);
-            this.Octave12CheckBox.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.Octave12CheckBox.Location = new System.Drawing.Point(459, 42);
-            this.Octave12CheckBox.Name = "Octave12CheckBox";
-            this.Octave12CheckBox.Size = new System.Drawing.Size(159, 24);
-            this.Octave12CheckBox.TabIndex = 30;
-            this.Octave12CheckBox.Text = "2nd octave";
-            this.Octave12CheckBox.UseVisualStyleBackColor = true;
-            this.Octave12CheckBox.CheckedChanged += new System.EventHandler(this.Octave12CheckBox_CheckedChanged);
-            // 
-            // Octave22CheckBox
-            // 
-            this.Octave22CheckBox.AutoSize = true;
-            this.Octave22CheckBox.Checked = true;
-            this.Octave22CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.Octave22CheckBox.Font = new System.Drawing.Font("Kid A", 12F, System.Drawing.FontStyle.Bold);
-            this.Octave22CheckBox.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.Octave22CheckBox.Location = new System.Drawing.Point(949, 42);
-            this.Octave22CheckBox.Name = "Octave22CheckBox";
-            this.Octave22CheckBox.Size = new System.Drawing.Size(159, 24);
-            this.Octave22CheckBox.TabIndex = 32;
-            this.Octave22CheckBox.Text = "2nd octave";
-            this.Octave22CheckBox.UseVisualStyleBackColor = true;
-            this.Octave22CheckBox.CheckedChanged += new System.EventHandler(this.Octave22CheckBox_CheckedChanged);
-            // 
-            // Octave21CheckBox
-            // 
-            this.Octave21CheckBox.AutoSize = true;
-            this.Octave21CheckBox.Font = new System.Drawing.Font("Kid A", 12F, System.Drawing.FontStyle.Bold);
-            this.Octave21CheckBox.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.Octave21CheckBox.Location = new System.Drawing.Point(949, 12);
-            this.Octave21CheckBox.Name = "Octave21CheckBox";
-            this.Octave21CheckBox.Size = new System.Drawing.Size(145, 24);
-            this.Octave21CheckBox.TabIndex = 31;
-            this.Octave21CheckBox.Text = "1st octave";
-            this.Octave21CheckBox.UseVisualStyleBackColor = true;
-            this.Octave21CheckBox.CheckedChanged += new System.EventHandler(this.Octave21CheckBox_CheckedChanged);
-            // 
             // NoteLength1TextBox
             // 
             this.NoteLength1TextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -494,7 +440,7 @@
             this.SetDelay2But.BackColor = System.Drawing.Color.WhiteSmoke;
             this.SetDelay2But.Cursor = System.Windows.Forms.Cursors.Hand;
             this.SetDelay2But.Font = new System.Drawing.Font("Kid A", 10.2F);
-            this.SetDelay2But.Location = new System.Drawing.Point(1019, 215);
+            this.SetDelay2But.Location = new System.Drawing.Point(1019, 222);
             this.SetDelay2But.Name = "SetDelay2But";
             this.SetDelay2But.Size = new System.Drawing.Size(89, 23);
             this.SetDelay2But.TabIndex = 43;
@@ -507,7 +453,7 @@
             this.MS2Label.AutoSize = true;
             this.MS2Label.Font = new System.Drawing.Font("Kid A", 12F);
             this.MS2Label.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.MS2Label.Location = new System.Drawing.Point(1114, 189);
+            this.MS2Label.Location = new System.Drawing.Point(1114, 196);
             this.MS2Label.Name = "MS2Label";
             this.MS2Label.Size = new System.Drawing.Size(38, 20);
             this.MS2Label.TabIndex = 42;
@@ -516,7 +462,7 @@
             // NoteLength2TextBox
             // 
             this.NoteLength2TextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.NoteLength2TextBox.Location = new System.Drawing.Point(949, 177);
+            this.NoteLength2TextBox.Location = new System.Drawing.Point(949, 184);
             this.NoteLength2TextBox.Name = "NoteLength2TextBox";
             this.NoteLength2TextBox.Size = new System.Drawing.Size(159, 32);
             this.NoteLength2TextBox.TabIndex = 41;
@@ -607,7 +553,7 @@
             this.NoteLengthLabel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.NoteLengthLabel2.Font = new System.Drawing.Font("Kid A", 12F, System.Drawing.FontStyle.Bold);
             this.NoteLengthLabel2.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.NoteLengthLabel2.Location = new System.Drawing.Point(945, 154);
+            this.NoteLengthLabel2.Location = new System.Drawing.Point(945, 161);
             this.NoteLengthLabel2.Name = "NoteLengthLabel2";
             this.NoteLengthLabel2.Size = new System.Drawing.Size(165, 20);
             this.NoteLengthLabel2.TabIndex = 50;
@@ -618,12 +564,73 @@
             this.timer1.Interval = 10;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // Octave11Label
+            // 
+            this.Octave11Label.AutoSize = true;
+            this.Octave11Label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.Octave11Label.Font = new System.Drawing.Font("Kid A", 12F, System.Drawing.FontStyle.Bold);
+            this.Octave11Label.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.Octave11Label.Location = new System.Drawing.Point(459, 16);
+            this.Octave11Label.Name = "Octave11Label";
+            this.Octave11Label.Size = new System.Drawing.Size(123, 20);
+            this.Octave11Label.TabIndex = 51;
+            this.Octave11Label.Text = "1st octave";
+            // 
+            // Octave12Label
+            // 
+            this.Octave12Label.AutoSize = true;
+            this.Octave12Label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.Octave12Label.Font = new System.Drawing.Font("Kid A", 12F, System.Drawing.FontStyle.Bold);
+            this.Octave12Label.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.Octave12Label.Location = new System.Drawing.Point(459, 46);
+            this.Octave12Label.Name = "Octave12Label";
+            this.Octave12Label.Size = new System.Drawing.Size(137, 20);
+            this.Octave12Label.TabIndex = 52;
+            this.Octave12Label.Text = "2nd octave";
+            // 
+            // Octave22Label
+            // 
+            this.Octave22Label.AutoSize = true;
+            this.Octave22Label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.Octave22Label.Font = new System.Drawing.Font("Kid A", 12F, System.Drawing.FontStyle.Bold);
+            this.Octave22Label.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.Octave22Label.Location = new System.Drawing.Point(949, 45);
+            this.Octave22Label.Name = "Octave22Label";
+            this.Octave22Label.Size = new System.Drawing.Size(137, 20);
+            this.Octave22Label.TabIndex = 54;
+            this.Octave22Label.Text = "2nd octave";
+            // 
+            // Octave21Label
+            // 
+            this.Octave21Label.AutoSize = true;
+            this.Octave21Label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.Octave21Label.Font = new System.Drawing.Font("Kid A", 12F, System.Drawing.FontStyle.Bold);
+            this.Octave21Label.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.Octave21Label.Location = new System.Drawing.Point(949, 15);
+            this.Octave21Label.Name = "Octave21Label";
+            this.Octave21Label.Size = new System.Drawing.Size(123, 20);
+            this.Octave21Label.TabIndex = 53;
+            this.Octave21Label.Text = "1st octave";
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.Filter = "Файл с настройками | *.bin";
+            // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.Filter = "Файл с настройками | *.bin";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(1210, 757);
+            this.Controls.Add(this.Octave22Label);
+            this.Controls.Add(this.Octave21Label);
+            this.Controls.Add(this.Octave12Label);
+            this.Controls.Add(this.Octave11Label);
             this.Controls.Add(this.NoteLengthLabel2);
             this.Controls.Add(this.NoteLengthLabel1);
             this.Controls.Add(this.ResetBut);
@@ -637,10 +644,6 @@
             this.Controls.Add(this.SetDelay1But);
             this.Controls.Add(this.MS1Label);
             this.Controls.Add(this.NoteLength1TextBox);
-            this.Controls.Add(this.Octave22CheckBox);
-            this.Controls.Add(this.Octave21CheckBox);
-            this.Controls.Add(this.Octave12CheckBox);
-            this.Controls.Add(this.Octave11CheckBox);
             this.Controls.Add(this.BackToMenuBut);
             this.Controls.Add(this.C2);
             this.Controls.Add(this.Cd2);
@@ -714,10 +717,6 @@
         private System.Windows.Forms.Label CC2;
         private System.Windows.Forms.TextBox CurrentNote2TextBox;
         private System.Windows.Forms.Button BackToMenuBut;
-        private System.Windows.Forms.CheckBox Octave11CheckBox;
-        private System.Windows.Forms.CheckBox Octave12CheckBox;
-        private System.Windows.Forms.CheckBox Octave22CheckBox;
-        private System.Windows.Forms.CheckBox Octave21CheckBox;
         private System.Windows.Forms.TextBox NoteLength1TextBox;
         private System.Windows.Forms.Label MS1Label;
         private System.Windows.Forms.Button SetDelay1But;
@@ -733,5 +732,11 @@
         private System.Windows.Forms.Label NoteLengthLabel2;
         private System.Windows.Forms.Timer timer1;
         private System.IO.Ports.SerialPort serialPort1;
+        private System.Windows.Forms.Label Octave11Label;
+        private System.Windows.Forms.Label Octave12Label;
+        private System.Windows.Forms.Label Octave22Label;
+        private System.Windows.Forms.Label Octave21Label;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }

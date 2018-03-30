@@ -27,8 +27,8 @@ int oc1Duration = 0; // длина звучания ноты (в млсек)
 
 int currentOctave = 0; // октава в настоящий момент времени
 
-String noteMessage; // сообщение о перемене ноты
-String butMessage = "s1.currOc.0"; // сообщение о перемене октавы
+String message; // сообщение 
+String butMessage = "currOc.0"; // сообщение о перемене октавы
 
 void loop() {
   digitalWrite(trigPin, LOW); // удаляем сигнал на 2млсек
@@ -47,9 +47,8 @@ void loop() {
           else
             currentOctave = 1;
 
-          butMessage = "s1.currOc." + (String)currentOctave;
+          butMessage = "currOc." + (String)currentOctave;
         }
-  Serial.println(butMessage); // отправляем в форму октаву
 
   if(cm > 65 || cm < 0){
     noTone(soundPin); // не звучит, если выходит за диапазон 
@@ -68,8 +67,8 @@ void loop() {
       noTone(soundPin);
     }
 
-    noteMessage = "s1.currN." + (String)(cm/5);
-    Serial.println(noteMessage); // отправяем в форму строку с номером ноты 
+    message = "s1.currN." + (String)(cm/5) + "." + butMessage + ".";
+    Serial.println(message); // отправяем в форму строку с номером ноты 
   }
 
   delay(100);

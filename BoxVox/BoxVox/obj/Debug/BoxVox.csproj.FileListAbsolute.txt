@@ -19,3 +19,15 @@ E:\arduino\project\BoxVox\BoxVox\obj\Debug\BoxVox.pdb
 E:\arduino\project\BoxVox\BoxVox\obj\Debug\BoxVox.MenuForm.resources
 E:\arduino\project\BoxVox\BoxVox\obj\Debug\BoxVox.MainForm.resources
 E:\arduino\project\BoxVox\BoxVox\obj\Debug\BoxVox.MetronomeForm.resources
+E:\arduino\project\BOXVOX_project.git\BoxVox\BoxVox\bin\Debug\BoxVox.exe.config
+E:\arduino\project\BOXVOX_project.git\BoxVox\BoxVox\bin\Debug\BoxVox.exe
+E:\arduino\project\BOXVOX_project.git\BoxVox\BoxVox\bin\Debug\BoxVox.pdb
+E:\arduino\project\BOXVOX_project.git\BoxVox\BoxVox\obj\Debug\BoxVox.csprojResolveAssemblyReference.cache
+E:\arduino\project\BOXVOX_project.git\BoxVox\BoxVox\obj\Debug\BoxVox.MainForm.resources
+E:\arduino\project\BOXVOX_project.git\BoxVox\BoxVox\obj\Debug\BoxVox.MenuForm.resources
+E:\arduino\project\BOXVOX_project.git\BoxVox\BoxVox\obj\Debug\BoxVox.Properties.Resources.resources
+E:\arduino\project\BOXVOX_project.git\BoxVox\BoxVox\obj\Debug\BoxVox.MetronomeForm.resources
+E:\arduino\project\BOXVOX_project.git\BoxVox\BoxVox\obj\Debug\BoxVox.csproj.GenerateResource.Cache
+E:\arduino\project\BOXVOX_project.git\BoxVox\BoxVox\obj\Debug\BoxVox.csproj.CoreCompileInputs.cache
+E:\arduino\project\BOXVOX_project.git\BoxVox\BoxVox\obj\Debug\BoxVox.exe
+E:\arduino\project\BOXVOX_project.git\BoxVox\BoxVox\obj\Debug\BoxVox.pdb

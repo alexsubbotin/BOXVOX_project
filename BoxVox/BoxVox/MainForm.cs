@@ -56,8 +56,8 @@ namespace BoxVox
             SetDelay2But.Enabled = false;
 
             // Initial back color is black becuase they're checked 
-            Octave11CheckBox.BackColor = Color.Black;
-            Octave22CheckBox.BackColor = Color.Black;
+            Octave11Label.BackColor = Color.Black;
+            Octave22Label.BackColor = Color.Black;
 
         }
 
@@ -93,62 +93,10 @@ namespace BoxVox
             metronomeForm.Show();
         }
 
-        private void Octave11CheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            // If 1 oct checked then 2 - unchecked
-            if (Octave11CheckBox.Checked)
-            {
-                Octave12CheckBox.Checked = false;
-                Octave12CheckBox.BackColor = Color.FromArgb(64, 64, 64);
-
-                Octave11CheckBox.BackColor = Color.Black;
 
 
-                // SEND ARDUINO NEW OCTAVE
-            }
-        }
 
-        private void Octave12CheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            // If 2 oc checked then 1 - unchecked
-            if (Octave12CheckBox.Checked)
-            {
-                Octave11CheckBox.Checked = false;
-                Octave11CheckBox.BackColor = Color.FromArgb(64, 64, 64);
 
-                Octave12CheckBox.BackColor = Color.Black;
-
-                // SEND ARDUINO NEW OCTAVE
-            }
-        }
-
-        private void Octave21CheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            // If 1 oct checked then 2 - unchecked
-            if (Octave21CheckBox.Checked)
-            {
-                Octave22CheckBox.Checked = false;
-                Octave22CheckBox.BackColor = Color.FromArgb(64, 64, 64);
-
-                Octave21CheckBox.BackColor = Color.Black;
-
-                // SEND ARDUINO NEW OCTAVE
-            }
-        }
-
-        private void Octave22CheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            // If 2 oc checked then 1 - unchecked
-            if (Octave22CheckBox.Checked)
-            {
-                Octave21CheckBox.Checked = false;
-                Octave21CheckBox.BackColor = Color.FromArgb(64, 64, 64);
-
-                Octave22CheckBox.BackColor = Color.Black;
-
-                // SEND ARDUINO NEW OCTAVE
-            }
-        }
 
         private void Delay1TextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -215,8 +163,8 @@ namespace BoxVox
         private void ResetBut_Click(object sender, EventArgs e)
         {
             // 1-1 2-2
-            Octave11CheckBox.Checked = true;
-            Octave22CheckBox.Checked = true;
+            Octave11Label.BackColor = Color.Black;
+            Octave22Label.BackColor = Color.Black;
 
             // Both initial delays are 0
             NoteLength1TextBox.Text = "no limit";
@@ -230,7 +178,7 @@ namespace BoxVox
             try
             {
                 // Getting messages from arduino
-                if (serialPort1.BytesToRead != 0) 
+                if (serialPort1.BytesToRead != 0)
                 {
                     // Message (serial.println())
                     string message = serialPort1.ReadLine();
@@ -240,7 +188,7 @@ namespace BoxVox
                     // Array of the 2nd sensor labels
                     Label[] s2Notes = { C2, Cd2, D2, Dd2, E2, F2, Fd2, G2, Gd2, A2, B2, H2, CC2 };
 
-                    if (message != "_\r") 
+                    if (message != "_\r")
                     // If the message is not empty (some note)
                     {
                         // Decomposing the message 
@@ -263,14 +211,20 @@ namespace BoxVox
                                 // Textbox shows the current note name
                                 CurrentNote1TextBox.Text = s1Notes[pos].Text;
                             }
-                            else
+
+                            if (decMessage[3] == "currOc")
                             // Current octave changed
                             {
-                                if (decMessage[2] == "0")
-                                    //Octave11CheckBox_CheckedChanged(null, null);
-                                    Octave11CheckBox.BackColor = Color.White;
+                                if (decMessage[4] == "0")
+                                {
+                                    Octave11Label.BackColor = Color.Black;
+                                    Octave12Label.BackColor = Color.FromArgb(64, 64, 64);
+                                }
                                 else
-                                    Octave12CheckBox_CheckedChanged(null, null);
+                                {
+                                    Octave12Label.BackColor = Color.Black;
+                                    Octave11Label.BackColor = Color.FromArgb(64, 64, 64);
+                                }
                             }
                         }
                         else
@@ -290,20 +244,27 @@ namespace BoxVox
                                 // Textbox shows the current note name
                                 CurrentNote1TextBox.Text = s2Notes[pos].Text;
                             }
-                            else
+
+                            if (decMessage[3] == "currOc")
                             // Current octave changed
                             {
-                                if (decMessage[2] == "0")
-                                    Octave21CheckBox_CheckedChanged(null, null);
+                                if (decMessage[4] == "0")
+                                {
+                                    Octave21Label.BackColor = Color.Black;
+                                    Octave22Label.BackColor = Color.FromArgb(64, 64, 64);
+                                }
                                 else
-                                    Octave22CheckBox_CheckedChanged(null, null);
+                                {
+                                    Octave22Label.BackColor = Color.Black;
+                                    Octave21Label.BackColor = Color.FromArgb(64, 64, 64);
+                                }
                             }
                         }
                     }
                     else
                     {
                         // Textbox shows empty message
-                        CurrentNote1TextBox.Text = "_";
+                        CurrentNote1TextBox.Text = "no";
 
                         // Each label has casual back color
                         foreach (Label l in s1Notes)
