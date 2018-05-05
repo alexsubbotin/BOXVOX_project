@@ -73,7 +73,7 @@ void loop() {
 
   message = "1." + (String)currentNote1 + "." + (String)currentOctave1 + ".";
   Serial.println(message); // отправяем в форму
-  delay(100);
+  delay(20);
 
   // ВТОРАЯ РУКА
   /*digitalWrite(trigPin2, LOW); // удаляем сигнал на 2млсек
@@ -106,7 +106,7 @@ void loop() {
 
   message = "2." + (String)currentNote2 + "." + (String)currentOctave2 + ".";
   Serial.println(message); // отправяем в форму
-  delay(100);
+  delay(20);
 }
 
 
