@@ -23,10 +23,10 @@ int notes[2][13] = {{261, 277, 293, 311, 329, 349, 370, 392, 415, 440, 466, 494,
 String notesNames[] = {"C", "C#", "D", "D#", "E", "F", "F#", "F", "G", "G#", "A", "B", "H", "C"}; // названия нот
 int duration1, cm1; // нужны для считывания см
 
-int currentOctave = 0; // октава в настоящий момент времени
+int currentOctave1 = 0; // октава в настоящий момент времени
+int currentNote1 = -1; // нота в настоящий момент времени
 
 String message; // сообщение 
-String butMessage1 = "currOc.0"; // сообщение о перемене октавы
 
 void loop() {
   digitalWrite(trigPin1, LOW); // удаляем сигнал на 2млсек
@@ -44,20 +44,17 @@ void loop() {
             currentOctave1 = 0;
           else
             currentOctave1 = 1;
-
-          butMessage1 = "currOc." + (String)currentOctave;
         }
 
   if(cm1 > 65 || cm1 < 0){
     noTone(soundPin1); // не звучит, если выходит за диапазон 
-    digitalWrite(svet1, LOW);
-    Serial.println("_"); // отправляем в форму пустую строку
+    digitalWrite(svet1, LOW); // свет не горит
+    currentNote = -1; // никакая нота не играет
   }
   else{
-      tone(soundPin, notes[currentOctave][cm / 5]);
-      digitalWrite(svet, HIGH);
-      delay(oc1Duration); // длительность звучания ноты
-      noTone(soundPin);
+      tone(soundPin, notes[currentOctave1][cm1 / 5]); // играет нота
+      digitalWrite(svet, HIGH); // горит свет
+      currentNote = cm1 / 5; // запоминаем ноту
     }
 
     message = "s1.currN." + (String)(cm1/5) + "." + butMessage + ".";
