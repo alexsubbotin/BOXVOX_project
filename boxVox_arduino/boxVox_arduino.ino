@@ -32,10 +32,12 @@ int notes[2][13] = {{261, 277, 293, 311, 329, 349, 370, 392, 415, 440, 466, 494,
                     {523, 554, 587, 622, 659, 698, 740, 784, 830, 880, 932, 988, 523}}; // вторая октава
 
 String notesNames[] = {"C", "C#", "D", "D#", "E", "F", "F#", "F", "G", "G#", "A", "B", "H", "C"}; // названия нот
-int duration1, cm1; // нужны для считывания см
+int duration1, cm1, duration2, cm2; // нужны для считывания см
 
 int currentOctave1 = 0; // октава в настоящий момент времени
-int currentNote1 = -1; // нота в настоящий момент времени
+int currentNote1 = 1; // нота в настоящий момент времени
+int currentOctave2 = 1; // октава в настоящий момент времени
+int currentNote2 = 0; // нота в настоящий момент времени
 
 String message; // сообщение 
 
@@ -69,8 +71,12 @@ void loop() {
       currentNote1 = cm1 / 5; // запоминаем ноту
     }
 
+  message = "1." + (String)currentNote1 + "." + (String)currentOctave1 + ".";
+  Serial.println(message); // отправяем в форму
+  delay(100);
+
   // ВТОРАЯ РУКА
-  digitalWrite(trigPin2, LOW); // удаляем сигнал на 2млсек
+  /*digitalWrite(trigPin2, LOW); // удаляем сигнал на 2млсек
   delayMicroseconds(2); 
   digitalWrite(trigPin2, HIGH); // принимаем 10млсек сигнал
   delayMicroseconds(10);
@@ -96,12 +102,10 @@ void loop() {
       tone(soundPin2, notes[currentOctave2][cm2 / 5]); // играет нота
       digitalWrite(svet2, HIGH); // горит свет
       currentNote2 = cm2 / 5; // запоминаем ноту
-    }
+    }*/
 
-    message = (String)currentNote1 + "." + (String)currentOctave1 + "." + (String)currentNote2 + "."+(String)currentOctave2 + ".";
-    Serial.println(message); // отправяем в форму строку с номером ноты 
-  
-
+  message = "2." + (String)currentNote2 + "." + (String)currentOctave2 + ".";
+  Serial.println(message); // отправяем в форму
   delay(100);
 }
 
