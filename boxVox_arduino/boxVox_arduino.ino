@@ -98,7 +98,7 @@ void loop() {
       currentNote2 = cm2 / 5; // запоминаем ноту
     }
 
-    message = (String)currentNote1 + "." + (String)currentOctave1 + "." + (String)currentNote2 + "."+(String)currentOctave2;
+    message = (String)currentNote1 + "." + (String)currentOctave1 + "." + (String)currentNote2 + "."+(String)currentOctave2 + ".";
     Serial.println(message); // отправяем в форму строку с номером ноты 
   
 
