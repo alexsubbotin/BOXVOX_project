@@ -1,18 +1,27 @@
 // MY PROJECT
 #define soundPin1 13 // пищалка 1
-#define trigPin1 10 // (дальномер 1) податся сигнал, который потом преобразуется и посылается
-#define echoPin1 11 // (дальномер 1) куда посылается сигнал 
 #define svet1 12 // светодиод 1
+#define echoPin1 11 // (дальномер 1) куда посылается сигнал 
+#define trigPin1 10 // (дальномер 1) податся сигнал, который потом преобразуется и посылается
 #define button1 9 // кнопка переключатель октав 1
 
+#define soundPin2 8 // пищалка 2
+#define svet2 7 // светодиод 2
+#define echoPin2 6 // (дальномер 2) куда посылается сигнал 
+#define trigPin2 5 // (дальномер 2) податся сигнал, который потом преобразуется и посылается
+#define button2 4 // кнопка переключатель октав 2
+
 void setup() {
-  pinMode(soundPin, OUTPUT);
+  pinMode(soundPin1, OUTPUT);
+  pinMode(trigPin1, OUTPUT);
+  pinMode(echoPin1, INPUT);
+  pinMode(button1, INPUT);
 
-  pinMode(trigPin, OUTPUT);
-  pinMode(echoPin, INPUT);
-
-  pinMode(button, INPUT);
-
+  pinMode(soundPin2, OUTPUT);
+  pinMode(trigPin2, OUTPUT);
+  pinMode(echoPin2, INPUT);
+  pinMode(button2, INPUT);
+  
   Serial.begin(9600);
 }
 
@@ -49,15 +58,15 @@ void loop() {
   if(cm1 > 65 || cm1 < 0){
     noTone(soundPin1); // не звучит, если выходит за диапазон 
     digitalWrite(svet1, LOW); // свет не горит
-    currentNote = -1; // никакая нота не играет
+    currentNote1 = -1; // никакая нота не играет
   }
   else{
       tone(soundPin, notes[currentOctave1][cm1 / 5]); // играет нота
       digitalWrite(svet, HIGH); // горит свет
-      currentNote = cm1 / 5; // запоминаем ноту
+      currentNote1 = cm1 / 5; // запоминаем ноту
     }
 
-    message = "s1.currN." + (String)(cm1/5) + "." + butMessage + ".";
+    message = (String)currentNote1 + "." + (String)currentOctave1;
     Serial.println(message); // отправяем в форму строку с номером ноты 
   
 
