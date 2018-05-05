@@ -49,12 +49,6 @@ namespace BoxVox
             }
             catch { }
 
-            // Block delay 1 set button
-            SetFrequency1But.Enabled = false;
-
-            // Block delay 2 set button
-            SetFrequency2But.Enabled = false;
-
             // Initial back color is black becuase they're checked 
             Octave11Label.BackColor = Color.Black;
             Octave22Label.BackColor = Color.Black;
@@ -84,101 +78,6 @@ namespace BoxVox
             {
                 MessageBox.Show("Can not open port");
             }
-        }
-
-        private void MertonomeBut_Click(object sender, EventArgs e)
-        {
-            // Open metronome settings
-            MetronomeForm metronomeForm = new MetronomeForm();
-            metronomeForm.Show();
-        }
-
-
-
-
-
-
-        private void Delay1TextBox_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // Digits only
-            if (!Char.IsDigit(e.KeyChar))
-                e.Handled = true;
-
-            // Backspace
-            if (e.KeyChar == (char)Keys.Back && NoteFrequency1TextBox.Text != "" &&
-                NoteFrequency1TextBox.SelectionStart != 0)
-            {
-                NoteFrequency1TextBox.Text = NoteFrequency1TextBox.Text.Substring(0, NoteFrequency1TextBox.Text.Length - 1);
-                NoteFrequency1TextBox.SelectionStart = NoteFrequency1TextBox.Text.Length;
-            }
-        }
-
-        private void Delay2TextBox_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // Digits only
-            if (!Char.IsDigit(e.KeyChar))
-                e.Handled = true;
-
-            // Backspace
-            if (e.KeyChar == (char)Keys.Back && NoteFrequency2TextBox.Text != "" &&
-                NoteFrequency2TextBox.SelectionStart != 0)
-            {
-                NoteFrequency2TextBox.Text = NoteFrequency2TextBox.Text.Substring(0, NoteFrequency2TextBox.Text.Length - 1);
-                NoteFrequency2TextBox.SelectionStart = NoteFrequency2TextBox.Text.Length;
-            }
-        }
-
-        private void Delay1TextBox_TextChanged(object sender, EventArgs e)
-        {
-            // New delay set enabled
-            SetFrequency1But.Enabled = true;
-        }
-
-        private void Delay2TextBox_TextChanged(object sender, EventArgs e)
-        {
-            // New delay set enabled
-            SetFrequency2But.Enabled = true;
-        }
-
-        private void SetDelay1But_Click(object sender, EventArgs e)
-        {
-            if (NoteFrequency1TextBox.Text == "")
-                NoteFrequency1TextBox.Text = "0";
-
-            // SENDING ARDUINO FREQUENCY
-            //string freq = "1." + NoteFrequency1TextBox.Text;
-            //string freq = NoteFrequency1TextBox.Text;
-
-            byte freq = Convert.ToByte(NoteFrequency1TextBox.Text);
-            byte[] buf = { freq };
-            serialPort1.Write(buf, 0 , 1);
-
-
-
-            SetFrequency1But.Enabled = false;
-        }
-
-        private void SetDelay2But_Click(object sender, EventArgs e)
-        {
-            if (NoteFrequency2TextBox.Text == "")
-                NoteFrequency2TextBox.Text = "0";
-
-            // SENDING ARDUINO DELAY
-
-            SetFrequency2But.Enabled = false;
-        }
-
-        private void ResetBut_Click(object sender, EventArgs e)
-        {
-            // 1-1 2-2
-            Octave11Label.BackColor = Color.Black;
-            Octave22Label.BackColor = Color.Black;
-
-            // Both initial delays are 0
-            NoteFrequency1TextBox.Text = "no limit";
-            NoteFrequency2TextBox.Text = "no limit";
-
-            // SEND ARDUINO INFO
         }
 
         private void timer1_Tick(object sender, EventArgs e)
