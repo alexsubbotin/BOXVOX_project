@@ -16,11 +16,13 @@ void setup() {
   pinMode(trigPin1, OUTPUT);
   pinMode(echoPin1, INPUT);
   pinMode(button1, INPUT);
+  pinMode(svet1, OUTPUT);
 
   pinMode(soundPin2, OUTPUT);
   pinMode(trigPin2, OUTPUT);
   pinMode(echoPin2, INPUT);
   pinMode(button2, INPUT);
+  pinMode(svet2, OUTPUT);
   
   Serial.begin(9600);
 }
@@ -38,6 +40,7 @@ int currentNote1 = -1; // нота в настоящий момент време
 String message; // сообщение 
 
 void loop() {
+  // ПЕРВАЯ РУКА
   digitalWrite(trigPin1, LOW); // удаляем сигнал на 2млсек
   delayMicroseconds(2); 
   digitalWrite(trigPin1, HIGH); // принимаем 10млсек сигнал
@@ -61,12 +64,41 @@ void loop() {
     currentNote1 = -1; // никакая нота не играет
   }
   else{
-      tone(soundPin, notes[currentOctave1][cm1 / 5]); // играет нота
-      digitalWrite(svet, HIGH); // горит свет
+      tone(soundPin1, notes[currentOctave1][cm1 / 5]); // играет нота
+      digitalWrite(svet1, HIGH); // горит свет
       currentNote1 = cm1 / 5; // запоминаем ноту
     }
 
-    message = (String)currentNote1 + "." + (String)currentOctave1;
+  // ВТОРАЯ РУКА
+  digitalWrite(trigPin2, LOW); // удаляем сигнал на 2млсек
+  delayMicroseconds(2); 
+  digitalWrite(trigPin2, HIGH); // принимаем 10млсек сигнал
+  delayMicroseconds(10);
+  digitalWrite(trigPin2, LOW); // убиарем после 10 млсек
+  duration2 = pulseIn(echoPin1, HIGH); // палсиен снимает показания с эхопина (длина сигнала)
+  cm2 = duration1 / 58; // получаем величину в см
+
+  if (digitalRead(button2)) // меняем октаву по нажатию кнопки
+        delay(50);
+        if (digitalRead(button2)){
+          if(currentOctave2 == 1)
+            currentOctave2 = 0;
+          else
+            currentOctave2 = 1;
+        }
+
+  if(cm2 > 65 || cm2 < 0){
+    noTone(soundPin2); // не звучит, если выходит за диапазон 
+    digitalWrite(svet2, LOW); // свет не горит
+    currentNote2 = -1; // никакая нота не играет
+  }
+  else{
+      tone(soundPin2, notes[currentOctave2][cm2 / 5]); // играет нота
+      digitalWrite(svet2, HIGH); // горит свет
+      currentNote2 = cm2 / 5; // запоминаем ноту
+    }
+
+    message = (String)currentNote1 + "." + (String)currentOctave1 + "." + (String)currentNote2 + "."+(String)currentOctave2;
     Serial.println(message); // отправяем в форму строку с номером ноты 
   
 
