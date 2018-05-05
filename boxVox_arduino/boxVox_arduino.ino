@@ -1,9 +1,9 @@
 // MY PROJECT
-#define soundPin 13 // пищалка
-#define trigPin 10 // (дальномер) податся сигнал, который потом преобразуется и посылается
-#define echoPin 11 // (дальномер) куда посылается сигнал 
-#define svet 12 // светодиод
-#define button 9 // кнопка переключатель октав
+#define soundPin1 13 // пищалка 1
+#define trigPin1 10 // (дальномер 1) податся сигнал, который потом преобразуется и посылается
+#define echoPin1 11 // (дальномер 1) куда посылается сигнал 
+#define svet1 12 // светодиод 1
+#define button1 9 // кнопка переключатель октав 1
 
 void setup() {
   pinMode(soundPin, OUTPUT);
@@ -21,73 +21,46 @@ int notes[2][13] = {{261, 277, 293, 311, 329, 349, 370, 392, 415, 440, 466, 494,
                     {523, 554, 587, 622, 659, 698, 740, 784, 830, 880, 932, 988, 523}}; // вторая октава
 
 String notesNames[] = {"C", "C#", "D", "D#", "E", "F", "F#", "F", "G", "G#", "A", "B", "H", "C"}; // названия нот
-int duration, cm; // нужны для считывания см
-
-//int oc1Duration = 0; // длина звучания ноты (в млсек)
-long long current = 0;
-int frequency = 0;
+int duration1, cm1; // нужны для считывания см
 
 int currentOctave = 0; // октава в настоящий момент времени
 
 String message; // сообщение 
-String butMessage = "currOc.0"; // сообщение о перемене октавы
+String butMessage1 = "currOc.0"; // сообщение о перемене октавы
 
 void loop() {
-  digitalWrite(trigPin, LOW); // удаляем сигнал на 2млсек
+  digitalWrite(trigPin1, LOW); // удаляем сигнал на 2млсек
   delayMicroseconds(2); 
-  digitalWrite(trigPin, HIGH); // принимаем 10млсек сигнал
+  digitalWrite(trigPin1, HIGH); // принимаем 10млсек сигнал
   delayMicroseconds(10);
-  digitalWrite(trigPin, LOW); // убиарем после 10 млсек
-  duration = pulseIn(echoPin, HIGH); // палсиен снимает показания с эхопина (длина сигнала)
-  cm = duration / 58; // получаем величину в см
+  digitalWrite(trigPin1, LOW); // убиарем после 10 млсек
+  duration1 = pulseIn(echoPin1, HIGH); // палсиен снимает показания с эхопина (длина сигнала)
+  cm1 = duration1 / 58; // получаем величину в см
 
-  if(Serial.available()){
-    //String message = Serial.readString();
-    //Serial.println(message);
-
-    //if(message[0]== '1') // первый датчик меняет частоту звучания нот
-    //{
-      frequency  = Serial.read();
-    //}
-  }
-
-  if (digitalRead(button)) // меняем октаву по нажатию кнопки
+  if (digitalRead(button1)) // меняем октаву по нажатию кнопки
         delay(50);
-        if (digitalRead(button)){
-          if(currentOctave == 1)
-            currentOctave = 0;
+        if (digitalRead(button1)){
+          if(currentOctave1 == 1)
+            currentOctave1 = 0;
           else
-            currentOctave = 1;
+            currentOctave1 = 1;
 
-          butMessage = "currOc." + (String)currentOctave;
+          butMessage1 = "currOc." + (String)currentOctave;
         }
 
-  if(cm > 65 || cm < 0){
-    noTone(soundPin); // не звучит, если выходит за диапазон 
-    digitalWrite(svet, LOW);
+  if(cm1 > 65 || cm1 < 0){
+    noTone(soundPin1); // не звучит, если выходит за диапазон 
+    digitalWrite(svet1, LOW);
     Serial.println("_"); // отправляем в форму пустую строку
   }
   else{
-    /*if(oc1Duration == 0){ // Если не задана длительность ноты
-    tone(soundPin, notes[currentOctave][cm / 5]);
-    digitalWrite(svet, HIGH);
-    }
-    else{ // если длительность ноты задана
       tone(soundPin, notes[currentOctave][cm / 5]);
       digitalWrite(svet, HIGH);
       delay(oc1Duration); // длительность звучания ноты
-      noTone(soundPin);*/
-
-      if(millis() - current >= frequency){
-        tone(soundPin, notes[currentOctave][cm / 5]);
-        digitalWrite(svet, HIGH);
-        current = millis();
-      }
-      else
-        noTone(soundPin);
+      noTone(soundPin);
     }
 
-    message = "s1.currN." + (String)(cm/5) + "." + butMessage + ".";
+    message = "s1.currN." + (String)(cm1/5) + "." + butMessage + ".";
     Serial.println(message); // отправяем в форму строку с номером ноты 
   
 
