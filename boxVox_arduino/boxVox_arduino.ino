@@ -48,34 +48,14 @@ void setup() {
   pinMode(button2, INPUT);
   pinMode(svet2, OUTPUT);
 
-  /*thread1.onRun(sound1);     // назначаем потоку задачу
-  thread1.setInterval(10); // задаём интервал срабатывания, мсек
-
-  thread2.onRun(sound2);     // назначаем потоку задачу
-  thread2.setInterval(10); // задаём интервал срабатывания, мсек*/
-
-
   tone1.begin(soundPin1);
   tone2.begin(soundPin2);
   
   Serial.begin(9600);
 }
 
-/*void sound1(){
-  //noTone(soundPin2);
-  tone(soundPin1, notes[0][13]);
-  //delay(10);
-}
 
-void sound2(){
-  //noTone(soundPin1);
-  tone(soundPin2, notes[1][8]);
-  //delay(10);
-}*/
-
-void loop() {
-
-        
+void loop() {     
   if (digitalRead(button1)) // меняем октаву по нажатию кнопки
         delay(50);
         if (digitalRead(button1)){
@@ -86,7 +66,7 @@ void loop() {
         }
 
      
-       if (digitalRead(button2)) // меняем октаву по нажатию кнопки
+  if (digitalRead(button2)) // меняем октаву по нажатию кнопки
         delay(50);
         if (digitalRead(button2)){
           if(currentOctave2 == 1)
@@ -154,11 +134,4 @@ void loop() {
   message = "2." + (String)currentNote2 + "." + (String)currentOctave2 + ".";
   Serial.println(message); // отправяем в форму
   delay(del*2);
-  
-
 }
-
-
-
-
-
