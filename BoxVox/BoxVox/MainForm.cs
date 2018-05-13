@@ -49,12 +49,6 @@ namespace BoxVox
             }
             catch { }
 
-            // Block delay 1 set button
-            SetFrequency1But.Enabled = false;
-
-            // Block delay 2 set button
-            SetFrequency2But.Enabled = false;
-
             // Initial back color is black becuase they're checked 
             Octave11Label.BackColor = Color.Black;
             Octave22Label.BackColor = Color.Black;
@@ -86,100 +80,23 @@ namespace BoxVox
             }
         }
 
-        private void MertonomeBut_Click(object sender, EventArgs e)
-        {
-            // Open metronome settings
-            MetronomeForm metronomeForm = new MetronomeForm();
-            metronomeForm.Show();
-        }
+        // Previous note.
+        public int prevNote1 = 0;
+        // Current note;
+        public int currNote1 = 0;
+        // Previous octave.
+        public int prevOctave1 = 0;
+        // Current octave.
+        public int currOctave1 = 0;
 
-
-
-
-
-
-        private void Delay1TextBox_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // Digits only
-            if (!Char.IsDigit(e.KeyChar))
-                e.Handled = true;
-
-            // Backspace
-            if (e.KeyChar == (char)Keys.Back && NoteFrequency1TextBox.Text != "" &&
-                NoteFrequency1TextBox.SelectionStart != 0)
-            {
-                NoteFrequency1TextBox.Text = NoteFrequency1TextBox.Text.Substring(0, NoteFrequency1TextBox.Text.Length - 1);
-                NoteFrequency1TextBox.SelectionStart = NoteFrequency1TextBox.Text.Length;
-            }
-        }
-
-        private void Delay2TextBox_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // Digits only
-            if (!Char.IsDigit(e.KeyChar))
-                e.Handled = true;
-
-            // Backspace
-            if (e.KeyChar == (char)Keys.Back && NoteFrequency2TextBox.Text != "" &&
-                NoteFrequency2TextBox.SelectionStart != 0)
-            {
-                NoteFrequency2TextBox.Text = NoteFrequency2TextBox.Text.Substring(0, NoteFrequency2TextBox.Text.Length - 1);
-                NoteFrequency2TextBox.SelectionStart = NoteFrequency2TextBox.Text.Length;
-            }
-        }
-
-        private void Delay1TextBox_TextChanged(object sender, EventArgs e)
-        {
-            // New delay set enabled
-            SetFrequency1But.Enabled = true;
-        }
-
-        private void Delay2TextBox_TextChanged(object sender, EventArgs e)
-        {
-            // New delay set enabled
-            SetFrequency2But.Enabled = true;
-        }
-
-        private void SetDelay1But_Click(object sender, EventArgs e)
-        {
-            if (NoteFrequency1TextBox.Text == "")
-                NoteFrequency1TextBox.Text = "0";
-
-            // SENDING ARDUINO FREQUENCY
-            //string freq = "1." + NoteFrequency1TextBox.Text;
-            //string freq = NoteFrequency1TextBox.Text;
-
-            byte freq = Convert.ToByte(NoteFrequency1TextBox.Text);
-            byte[] buf = { freq };
-            serialPort1.Write(buf, 0 , 1);
-
-
-
-            SetFrequency1But.Enabled = false;
-        }
-
-        private void SetDelay2But_Click(object sender, EventArgs e)
-        {
-            if (NoteFrequency2TextBox.Text == "")
-                NoteFrequency2TextBox.Text = "0";
-
-            // SENDING ARDUINO DELAY
-
-            SetFrequency2But.Enabled = false;
-        }
-
-        private void ResetBut_Click(object sender, EventArgs e)
-        {
-            // 1-1 2-2
-            Octave11Label.BackColor = Color.Black;
-            Octave22Label.BackColor = Color.Black;
-
-            // Both initial delays are 0
-            NoteFrequency1TextBox.Text = "no limit";
-            NoteFrequency2TextBox.Text = "no limit";
-
-            // SEND ARDUINO INFO
-        }
+        // Previous note.
+        public int prevNote2 = 0;
+        // Current note;
+        public int currNote2 = 0;
+        // Previous octave.
+        public int prevOctave2 = 0;
+        // Current octave.
+        public int currOctave2 = 0;
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -190,93 +107,92 @@ namespace BoxVox
                 {
                     // Message (serial.println())
                     string message = serialPort1.ReadLine();
-
-                    // Array of the 1st sensor labels 
-                    Label[] s1Notes = { C1, Cd1, D1, Dd1, E1, F1, Fd1, G1, Gd1, A1, B1, H1, CC1 };
-                    // Array of the 2nd sensor labels
-                    Label[] s2Notes = { C2, Cd2, D2, Dd2, E2, F2, Fd2, G2, Gd2, A2, B2, H2, CC2 };
-
-                    if (message != "_\r")
-                    // If the message is not empty (some note)
+                    if (message.Length > 6 && message.Length < 9)
                     {
+                        // Array of the 1st sensor note labels.
+                        Label[] s1Notes = { C1, Cd1, D1, Dd1, E1, F1, Fd1, G1, Gd1, A1, B1, H1, CC1 };
+                        // Array of the 2nd sensor note labels.
+                        Label[] s2Notes = { C2, Cd2, D2, Dd2, E2, F2, Fd2, G2, Gd2, A2, B2, H2, CC2 };
+
+                        // Array of the 1st sensor octave labels.
+                        Label[] s1Octaves = { Octave11Label, Octave12Label };
+                        // Array of the 2nd sensor octave labels.
+                        Label[] s2Octaves = { Octave21Label, Octave22Label };
+
+
                         // Decomposing the message 
                         string[] decMessage = message.Split('.');
 
-                        if (decMessage[0] == "s1")
-                        // If it's the 1st sensor
+
+                        // The 1st hand.
+                        if (decMessage[0] == "1")
                         {
-                            if (decMessage[1] == "currN")
-                            // If current note changed
+                            currNote1 = Convert.ToInt32(decMessage[1]);
+                            currOctave1 = Convert.ToInt32(decMessage[2]);
+
+                            // Note changed.
+                            if (currNote1 != prevNote1)
                             {
-                                // Each label has casual back color
-                                foreach (Label l in s1Notes)
-                                    l.BackColor = Color.FromArgb(64, 64, 64);
+                                // Previous label has casual backcolor.
+                                s1Notes[prevNote1].BackColor = Color.FromArgb(64, 64, 64);
+                                // Current label has black backcolor.
+                                s1Notes[currNote1].BackColor = Color.Black;
 
-                                int pos = Convert.ToInt32(decMessage[2]);
-                                // Current note label has black back color
-                                s1Notes[pos].BackColor = Color.Black;
+                                // Textbox shows the name of the current note.
+                                CurrentNote1TextBox.Text = s1Notes[currNote1].Text;
 
-                                // Textbox shows the current note name
-                                CurrentNote1TextBox.Text = s1Notes[pos].Text;
+                                // Current becomes previous.
+                                prevNote1 = currNote1;
                             }
 
-                            if (decMessage[3] == "currOc")
-                            // Current octave changed
+
+                            // Octave changed.
+                            if (currOctave1 != prevOctave1)
                             {
-                                if (decMessage[4] == "0")
-                                {
-                                    Octave11Label.BackColor = Color.Black;
-                                    Octave12Label.BackColor = Color.FromArgb(64, 64, 64);
-                                }
-                                else
-                                {
-                                    Octave12Label.BackColor = Color.Black;
-                                    Octave11Label.BackColor = Color.FromArgb(64, 64, 64);
-                                }
+                                // Previous label has casual backcolor.
+                                s1Octaves[prevOctave1].BackColor = Color.FromArgb(64, 64, 64);
+                                // Current lable has black backcolor.
+                                s1Octaves[currOctave1].BackColor = Color.Black;
+
+                                // Current becomes previous.
+                                prevOctave1 = currOctave1;
                             }
                         }
-                        else
-                        // It's the 2nd sensor
+
+                        // The 2d hand.
+                        if (decMessage[0] == "2")
                         {
-                            if (decMessage[1] == "currN")
-                            // If current note changed
+                            currNote2 = Convert.ToInt32(decMessage[1]);
+                            currOctave2 = Convert.ToInt32(decMessage[2]);
+
+                            // Note changed.
+                            if (currNote2 != prevNote2)
                             {
-                                // Each label has casual back color
-                                foreach (Label l in s2Notes)
-                                    l.BackColor = Color.FromArgb(64, 64, 64);
+                                // Previous label has casual backcolor.
+                                s2Notes[prevNote2].BackColor = Color.FromArgb(64, 64, 64);
+                                // Current label has black backcolor.
+                                s2Notes[currNote2].BackColor = Color.Black;
 
-                                int pos = Convert.ToInt32(decMessage[2]);
-                                // Current note label has black back color
-                                s2Notes[pos].BackColor = Color.Black;
+                                // Textbox shows the name of the current note.
+                                CurrentNote2TextBox.Text = s2Notes[currNote2].Text;
 
-                                // Textbox shows the current note name
-                                CurrentNote1TextBox.Text = s2Notes[pos].Text;
+                                // Current becomes previous.
+                                prevNote2 = currNote2;
                             }
 
-                            if (decMessage[3] == "currOc")
-                            // Current octave changed
+                            // Octave changed.
+                            if (currOctave2 != prevOctave2)
                             {
-                                if (decMessage[4] == "0")
-                                {
-                                    Octave21Label.BackColor = Color.Black;
-                                    Octave22Label.BackColor = Color.FromArgb(64, 64, 64);
-                                }
-                                else
-                                {
-                                    Octave22Label.BackColor = Color.Black;
-                                    Octave21Label.BackColor = Color.FromArgb(64, 64, 64);
-                                }
+                                // Previous label has casual backcolor.
+                                s2Octaves[prevOctave2].BackColor = Color.FromArgb(64, 64, 64);
+                                // Current lable has black backcolor.
+                                s2Octaves[currOctave2].BackColor = Color.Black;
+
+                                // Current becomes previous.
+                                prevOctave2 = currOctave2;
                             }
                         }
-                    }
-                    else
-                    {
-                        // Textbox shows empty message
-                        CurrentNote1TextBox.Text = "no";
 
-                        // Each label has casual back color
-                        foreach (Label l in s1Notes)
-                            l.BackColor = Color.FromArgb(64, 64, 64);
                     }
                 }
             }
